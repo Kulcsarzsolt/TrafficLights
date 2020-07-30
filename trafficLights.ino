@@ -4,11 +4,33 @@
 #define NO_OF_STATES 3
 #define FIRST_STATE 1
 
-int lightStates[3] = {
-  FIRST_LED,
-  SECOND_LED,
-  THIRD_LED
+void runFirstState(){
+  digitalWrite(FIRST_LED, HIGH);
+  delay(500);
+  digitalWrite(FIRST_LED, LOW);
+
+}
+
+void runSecondState(){
+  digitalWrite(SECOND_LED, HIGH);
+  delay(500);
+  digitalWrite(SECOND_LED, LOW);
+
+}
+
+void runThirdState(){
+  digitalWrite(THIRD_LED, HIGH);
+  delay(500);
+  digitalWrite(THIRD_LED, LOW);
+
+}
+
+void (*lightStates[3])() = {
+  runFirstState,
+  runSecondState,
+  runThirdState
 };
+
 
 boolean direction = true;
 int currentState = 1;
@@ -22,10 +44,9 @@ void setup() {
 }
 
 void loop() {
-  digitalWrite(lightStates[currentState-1], HIGH);
-  delay(500);
-  digitalWrite(lightStates[currentState-1], LOW);
 
+  (*lightStates[currentState-1])();
+  
   if (direction == true) {
     currentState++;
   } else {
