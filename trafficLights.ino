@@ -12,9 +12,15 @@ void runFirstState(){
 }
 
 void runSecondState(){
+ int i = 0;
+ while(i<4){
   digitalWrite(SECOND_LED, HIGH);
-  delay(500);
+  delay(100);
   digitalWrite(SECOND_LED, LOW);
+  delay(100);
+
+  i++;
+ }
 
 }
 
