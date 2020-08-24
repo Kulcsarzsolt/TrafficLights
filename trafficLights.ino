@@ -2,6 +2,10 @@
 #include "trafficLights.h"
 #include "sevenSegmentDisplay.h"
 
+int ledState = LOW;
+unsigned long previousMillis = 0;
+long interval = 250;
+
 void runFirstState()
 {
 
@@ -11,6 +15,30 @@ void runFirstState()
     resetDisplay();
     display(i);
     delay(1000);
+    int counter = 0;
+    if (i <= 5)
+    {
+      while (counter <= 6)
+      {
+        unsigned long currentMillis = millis();
+        if (currentMillis - previousMillis >= interval)
+          previousMillis = currentMillis;
+
+        if (ledState == LOW)
+        {
+          ledState = HIGH;
+        }
+        else
+        {
+          ledState = LOW;
+        }
+
+        digitalWrite(FIRST_LED, ledState);
+        counter++;
+        interval = 100;
+        previousMillis = 0;
+      }
+    }
   }
   digitalWrite(FIRST_LED, LOW);
   turnOffDisplay();
@@ -18,16 +46,11 @@ void runFirstState()
 
 void runSecondState()
 {
-  int i = 0;
-  while (i < 8)
-  {
+  
     digitalWrite(SECOND_LED, HIGH);
     delay(100);
     digitalWrite(SECOND_LED, LOW);
     delay(100);
-
-    i++;
-  }
 }
 
 void runThirdState()
@@ -65,8 +88,6 @@ void setup()
   pinMode(DISPLAY_G, OUTPUT);
   pinMode(DISPLAY_DP, OUTPUT);
 }
-
-
 
 void loop()
 {
